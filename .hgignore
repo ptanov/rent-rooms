@@ -1,0 +1,12 @@
+# use glob syntax.
+syntax: glob
+
+target
+.classpath
+.project
+.settings
+src\main\webapp\rentrooms
+src\main\webapp\WEB-INF\classes
+src\main\webapp\WEB-INF\deploy
+src\main\webapp\WEB-INF\lib
+src\main\gwt-unitCache
