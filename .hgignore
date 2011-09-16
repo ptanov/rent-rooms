@@ -10,5 +10,6 @@ src\main\webapp\rentrooms
 src\main\webapp\WEB-INF\classes
 src\main\webapp\WEB-INF\deploy
 src\main\webapp\WEB-INF\lib
+src\main\webapp\WEB-INF\appengine-generated
 src\main\gwt-unitCache
 datanucleus.log
