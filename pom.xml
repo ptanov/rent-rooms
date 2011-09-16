@@ -261,26 +261,45 @@
           <downloadSources>true</downloadSources>
           <downloadJavadocs>false</downloadJavadocs>
           <wtpversion>2.0</wtpversion>
+          <classpathContainers>
+            <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
+            <classpathContainer>com.google.appengine.eclipse.core.GAE_CONTAINER</classpathContainer>
+<!-- should be set manualy by user
+            <classpathContainer>com.google.gwt.eclipse.core.GWT_CONTAINER</classpathContainer>
+-->
+          </classpathContainers>
+		  <excludes>
+		  <!-- from com.google.appengine.eclipse.core.GAE_CONTAINER -->
+		  <exclude>com.google.appengine.orm:datanucleus-appengine</exclude>
+		  <exclude>org.datanucleus:datanucleus-jpa</exclude>
+		  <exclude>org.datanucleus:datanucleus-core</exclude>
+		  <exclude>org.datanucleus:datanucleus-rdbms</exclude>
+<!--
+			<exclude>org.datanucleus:datanucleus-enhancer</exclude>
+			-->
+			<exclude>com.google.appengine:appengine-api-1.0-sdk</exclude>
+		  </excludes>
           <additionalBuildcommands>
             <buildCommand>
-              <name>org.eclipse.ajdt.core.ajbuilder</name>
-              <arguments>
-                <aspectPath>org.springframework.aspects</aspectPath>
-              </arguments>
+              <name>com.google.appengine.eclipse.core.enhancerbuilder</name>
             </buildCommand>
             <buildCommand>
-              <name>org.springframework.ide.eclipse.core.springbuilder</name>
+              <name>org.datanucleus.ide.eclipse.enhancerbuilder</name>
             </buildCommand>
             <buildCommand>
               <name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
             </buildCommand>
+            <buildCommand>
+              <name>com.google.gdt.eclipse.core.webAppProjectValidator</name>
+            </buildCommand>
+            <buildCommand>
+              <name>com.google.appengine.eclipse.core.projectValidator</name>
+            </buildCommand>
           </additionalBuildcommands>
           <additionalProjectnatures>
-            <projectnature>org.eclipse.ajdt.ui.ajnature</projectnature>
-            <projectnature>com.springsource.sts.roo.core.nature</projectnature>
-            <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
             <projectnature>com.google.gwt.eclipse.core.gwtNature</projectnature>
             <projectnature>com.google.appengine.eclipse.core.gaeNature</projectnature>
+			<projectnature>org.datanucleus.ide.eclipse.projectnature</projectnature>
           </additionalProjectnatures>
         </configuration>
       </plugin>
@@ -370,7 +389,7 @@
       <plugin>
         <groupId>net.kindleit</groupId>
         <artifactId>maven-gae-plugin</artifactId>
-        <version>0.7.3</version>
+        <version>0.9.0</version>
         <configuration>
           <unpackVersion>${gae.version}</unpackVersion>
         </configuration>
