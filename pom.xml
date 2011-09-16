@@ -429,7 +429,7 @@
           <style>PRETTY</style>
           <runTarget>/RentRooms.html</runTarget>
           <modules>
-            <module>${project.groupId}.RentRooms</module>
+            <module>${project.artifactId}.RentRooms</module>
 <!--
             <module>${project.groupId}.ExpensesMobile</module>
             <module>${project.groupId}.LoadExpensesDB</module>
