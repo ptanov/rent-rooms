@@ -10,8 +10,8 @@
 	<!-- 2.4.0.rc1 or -->
     <gwt.version>2.3.0</gwt.version>
     <slf4j.version>1.6.1</slf4j.version>
-    <gae.version>1.5.2</gae.version>
-    <gae-test.version>1.5.2</gae-test.version>
+    <gae.version>1.5.4</gae.version>
+    <gae-test.version>1.5.4</gae-test.version>
     <gae.home>${user.home}/.m2/repository/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</gae.home>
 	<!-- not compatible with Eclipse - appengine SDK 1.5.4 comes with datanucleus 1.1.5
     <datanucleus.version>3.0.0-release</datanucleus.version>
@@ -200,7 +200,8 @@
 	         
     <!-- Uncomment appengine-local-runtime and appengine-tools-api to be able to run App Engine unit tests -->
     <!-- With these uncommented, you must run mvn gae:unpack before importing the project into Eclipse -->
-   <dependency>
+<!--
+	<dependency>
 	 <groupId>com.google.appengine</groupId>
 	 <artifactId>appengine-local-runtime</artifactId>
 	 <version>${gae.version}</version>
@@ -214,7 +215,7 @@
 	 <scope>system</scope>
 	 <systemPath>${gae.home}/lib/appengine-tools-api.jar</systemPath>
    </dependency>
-
+-->
   </dependencies>
   <build>
     <plugins>
