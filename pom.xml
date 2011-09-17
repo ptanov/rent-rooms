@@ -13,6 +13,9 @@
     <gae.version>1.5.2</gae.version>
     <gae-test.version>1.5.2</gae-test.version>
     <gae.home>${user.home}/.m2/repository/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</gae.home>
+	<!-- not compatible with Eclipse - appengine SDK 1.5.4 comes with datanucleus 1.1.5
+    <datanucleus.version>3.0.0-release</datanucleus.version>
+	-->
     <datanucleus.version>1.1.5</datanucleus.version>
   </properties>
   <repositories>
@@ -26,6 +29,11 @@
       <url>http://www.datanucleus.org/downloads/maven2/</url>
       <name>DataNucleus</name>
     </repository>
+    <repository>
+      <id>Apache</id>
+      <url>https://repository.apache.org/content/groups/snapshots/</url>
+      <name>Apache</name>
+    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
@@ -35,6 +43,28 @@
   </pluginRepositories>
   <dependencies>
   	<!-- datanucleus -->
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_3.0_spec</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jta_1.1_spec</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
+      <version>1.0-PFD2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
+      <version>1.0-EA2-SNAPSHOT</version>
+    </dependency>
+	-->
     <dependency>
       <groupId>com.google.appengine.orm</groupId>
       <artifactId>datanucleus-appengine</artifactId>
@@ -54,8 +84,21 @@
     <dependency>
       <groupId>org.datanucleus</groupId>
       <artifactId>datanucleus-jpa</artifactId>
-      <version>1.1.5</version>
+      <version>${datanucleus.version}</version>
     </dependency>
+
+<!-- for 3.0.0-release
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-api-jpa</artifactId>
+      <version>${datanucleus.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-api-jdo</artifactId>
+      <version>${datanucleus.version}</version>
+    </dependency>
+-->
     <dependency>
       <groupId>org.datanucleus</groupId>
       <artifactId>datanucleus-rdbms</artifactId>
@@ -64,13 +107,19 @@
     <dependency>
       <groupId>org.datanucleus</groupId>
       <artifactId>datanucleus-enhancer</artifactId>
+<!-- for 3.0.0-release
+      <version>${datanucleus.version}</version>
+-->
       <version>1.1.4</version>
     </dependency>
+	
+	
+
 <!-- jdo -->
     <dependency>
       <groupId>javax.jdo</groupId>
-      <artifactId>jdo2-api</artifactId>
-      <version>2.3-eb</version>
+      <artifactId>jdo-api</artifactId>
+      <version>3.0</version>
       <exclusions>
         <exclusion>
           <groupId>javax.transaction</groupId>
@@ -148,7 +197,7 @@
       <version>${gwt.version}</version>
       <scope>provided</scope>
     </dependency>
-	
+	         
     <!-- Uncomment appengine-local-runtime and appengine-tools-api to be able to run App Engine unit tests -->
     <!-- With these uncommented, you must run mvn gae:unpack before importing the project into Eclipse -->
    <dependency>
@@ -182,6 +231,24 @@
             </goals>
           </execution>
           <execution>
+		  <!-- very stupid way to skip coping of eclipse dependencies to target/ -->
+            <id>clean-eclipse-webapp-lib</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>${basedir}/src/main/webapp/WEB-INF/lib</directory>
+                  <includes>
+                    <include>*.jar</include>
+                  </includes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+          <execution>
             <id>remove-gwt-client-classes</id>
             <phase>package</phase>
             <goals>
@@ -205,10 +272,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.1-beta-1</version>
-        <!--
-           <configuration> <webXml>target/web.xml</webXml> </configuration>
-           -->
+        <version>2.1.1</version>
+           <configuration> 
+			<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+		   </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -274,8 +341,8 @@
 		  <exclude>org.datanucleus:datanucleus-jpa</exclude>
 		  <exclude>org.datanucleus:datanucleus-core</exclude>
 		  <exclude>org.datanucleus:datanucleus-rdbms</exclude>
+		  <exclude>org.datanucleus:datanucleus-enhancer</exclude>
 <!--
-			<exclude>org.datanucleus:datanucleus-enhancer</exclude>
 			-->
 			<exclude>com.google.appengine:appengine-api-1.0-sdk</exclude>
 		  </excludes>
@@ -319,6 +386,9 @@
       <plugin>
         <groupId>org.datanucleus</groupId>
         <artifactId>maven-datanucleus-plugin</artifactId>
+<!-- for 3.0.0-release
+        <version>${datanucleus.version}</version>
+-->
         <version>2.0.0-release</version>
         <configuration>
           <log4jConfiguration>${basedir}/src/main/resources/log4j.properties</log4jConfiguration>
@@ -343,18 +413,24 @@
           </execution>
         </executions>
         <dependencies>
-          <dependency>
-            <groupId>org.datanucleus</groupId>
-            <artifactId>datanucleus-core</artifactId>
-            <version>${datanucleus.version}</version>
-            <exclusions>
-              <exclusion>
-                <groupId>javax.transaction</groupId>
-                <artifactId>transaction-api</artifactId>
-              </exclusion>
-            </exclusions>
-          </dependency>
-          <dependency>
+			<dependency>
+			  <groupId>org.datanucleus</groupId>
+			  <artifactId>datanucleus-core</artifactId>
+			  <version>${datanucleus.version}</version>
+			  <exclusions>
+				<exclusion>
+				  <groupId>javax.transaction</groupId>
+				  <artifactId>transaction-api</artifactId>
+				</exclusion>
+			  </exclusions>
+			</dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-jpa</artifactId>
+      <version>${datanucleus.version}</version>
+    </dependency>
+
+		<dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-rdbms</artifactId>
             <version>${datanucleus.version}</version>
@@ -370,7 +446,7 @@
           <dependency>
             <groupId>javax.jdo</groupId>
             <artifactId>jdo2-api</artifactId>
-            <version>2.3-ec</version>
+            <version>2.3-eb</version>
             <scope>runtime</scope>
           </dependency>
         </dependencies>
