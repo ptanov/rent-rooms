@@ -283,9 +283,11 @@
             <buildCommand>
               <name>com.google.appengine.eclipse.core.enhancerbuilder</name>
             </buildCommand>
+<!--
             <buildCommand>
               <name>org.datanucleus.ide.eclipse.enhancerbuilder</name>
             </buildCommand>
+-->
             <buildCommand>
               <name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
             </buildCommand>
@@ -299,7 +301,9 @@
           <additionalProjectnatures>
             <projectnature>com.google.gwt.eclipse.core.gwtNature</projectnature>
             <projectnature>com.google.appengine.eclipse.core.gaeNature</projectnature>
+<!--
 			<projectnature>org.datanucleus.ide.eclipse.projectnature</projectnature>
+-->
           </additionalProjectnatures>
         </configuration>
       </plugin>
