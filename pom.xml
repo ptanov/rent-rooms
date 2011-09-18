@@ -232,7 +232,8 @@
             </goals>
           </execution>
           <execution>
-		  <!-- very stupid way to skip coping of eclipse dependencies to target/ -->
+		  <!-- very stupid way to skip coping of eclipse dependencies to target/
+			TODO fix this in smarter way!-->
             <id>clean-eclipse-webapp-lib</id>
             <phase>clean</phase>
             <goals>
@@ -244,6 +245,13 @@
                   <directory>${basedir}/src/main/webapp/WEB-INF/lib</directory>
                   <includes>
                     <include>*.jar</include>
+                  </includes>
+                </fileset>
+                <fileset>
+					<!-- based on http://stackoverflow.com/questions/5719118/gwt-module-may-need-to-be-recompiled-redux -->
+                  <directory>${basedir}/src/main/webapp/rentrooms</directory>
+                  <includes>
+                    <include>*.nocache.js</include>
                   </includes>
                 </fileset>
               </filesets>
