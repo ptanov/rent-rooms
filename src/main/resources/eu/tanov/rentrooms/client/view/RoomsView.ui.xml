@@ -1,0 +1,27 @@
+<ui:UiBinder
+  xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+  <ui:style>
+    .roomsViewButtonHPanel {
+      margin: 5px 0px 0x 5px;
+    }
+    .roomsViewRoomsFlexTable {
+      margin: 5px 0px 5px 0px;
+    }
+
+  </ui:style>
+
+  <g:DecoratorPanel>
+    <g:VerticalPanel>
+      <g:HorizontalPanel addStyleNames="{style.roomsViewButtonHPanel}">
+        <g:Button ui:field="addButton">Add</g:Button>
+        <g:Button ui:field="deleteButton">Delete</g:Button>
+      </g:HorizontalPanel>
+	    <g:HTML ui:field="roomsTable"></g:HTML>
+	    <!-- 
+      <g:FlexTable ui:field="roomsTable" addStyleNames="{style.roomsViewRoomsFlexTable}"/>
+	     -->
+    </g:VerticalPanel>
+  </g:DecoratorPanel>
+</ui:UiBinder>
