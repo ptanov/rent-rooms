@@ -7,10 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import com.google.appengine.api.datastore.Key;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = "allRooms", query = "SELECT r FROM Room r") })
 public class Room {
 	@Id
 	@Column(name = "key")
@@ -22,7 +25,7 @@ public class Room {
 	 */
 	private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Lessor owner;
 
 	public Key getKey() {
