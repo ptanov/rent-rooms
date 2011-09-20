@@ -23,7 +23,11 @@
 
   <!-- Configure java.util.logging -->
   <system-properties>
+<!-- 
     <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+    http://fall-ken.at.webry.info/201003/article_2.html:
+ -->
+    <property name="java.util.logging.config.file" value="WEB-INF/classes/log4j.properties"></property>
   </system-properties>
 
 </appengine-web-app>
