@@ -26,25 +26,30 @@ public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsServi
 	@Override
 	public List<RoomDTO> getRooms() {
 		final EntityManager em = EMF.get().createEntityManager();
-		final Query query = em.createNamedQuery("roomsByLessor");
-		
-		query.setParameter("owner", currentUserKey());
+		try {
 
-		final List<?> userRooms = query.getResultList();
+			final Query query = em.createNamedQuery("roomsByLessor");
 
-		final List<RoomDTO> result = new ArrayList<RoomDTO>(userRooms.size());
-		for (Object object : userRooms) {
-			if (!(object instanceof Room)) {
-				throw new IllegalStateException("Not-a-room: " + object);
+			query.setParameter("owner", currentUserKey());
+
+			final List<?> userRooms = query.getResultList();
+
+			final List<RoomDTO> result = new ArrayList<RoomDTO>(userRooms.size());
+			for (Object object : userRooms) {
+				if (!(object instanceof Room)) {
+					throw new IllegalStateException("Not-a-room: " + object);
+				}
+				final Room room = (Room) object;
+
+				final RoomDTO dto = new RoomDTO();
+				dto.setName(room.getName());
+
+				result.add(dto);
 			}
-			final Room room = (Room) object;
-
-			final RoomDTO dto = new RoomDTO();
-			dto.setName(room.getName());
-
-			result.add(dto);
+			return result;
+		} finally {
+			em.close();
 		}
-		return result;
 	}
 
 	private Key currentUserKey() {
@@ -56,12 +61,15 @@ public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsServi
 	public RoomDTO addRoom(RoomDTO roomDTO) {
 		final EntityManager em = EMF.get().createEntityManager();
 
-		final Lessor owner = getOrCreateOwner(em);
-		final Room room = new Room();
-		room.setName(roomDTO.getName());
-		room.setOwner(owner);
-		em.persist(room);
-		em.close();
+		try {
+			final Lessor owner = getOrCreateOwner(em);
+			final Room room = new Room();
+			room.setName(roomDTO.getName());
+			room.setOwner(owner);
+			em.persist(room);
+		} finally {
+			em.close();
+		}
 
 		return roomDTO;
 	}
