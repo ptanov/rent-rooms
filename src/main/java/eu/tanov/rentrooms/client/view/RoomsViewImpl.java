@@ -80,12 +80,12 @@ public class RoomsViewImpl<T> extends Composite implements RoomsView<T> {
     roomsTable.setHTML(table.getInnerHTML());
   }
   
-//  @UiHandler("addButton")
-//  void onAddButtonClicked(ClickEvent event) {
-//    if (presenter != null) {
-//      presenter.onAddButtonClicked();
-//    }
-//  }
+	@UiHandler("addButton")
+	void onAddButtonClicked(ClickEvent event) {
+		if (presenter != null) {
+			presenter.onAddButtonClicked();
+		}
+	}
 //
 //  @UiHandler("deleteButton")
 //  void onDeleteButtonClicked(ClickEvent event) {

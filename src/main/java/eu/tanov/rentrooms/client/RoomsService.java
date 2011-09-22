@@ -9,7 +9,7 @@ import eu.tanov.rentrooms.shared.model.RoomDTO;
 
 @RemoteServiceRelativePath("roomsService")
 public interface RoomsService extends RemoteService {
-//	public RoomDTO addRoom(RoomDTO room);
+	public RoomDTO addRoom(RoomDTO room);
 //
 //	public Boolean deleteRoom(String id);
 //

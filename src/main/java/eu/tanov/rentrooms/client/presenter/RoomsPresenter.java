@@ -34,9 +34,23 @@ public class RoomsPresenter implements Presenter,
     this.view.setColumnDefinitions(columnDefinitions);
   }
   
-  public void onAddButtonClicked() {
-    eventBus.fireEvent(new AddRoomEvent());
-  }
+	public void onAddButtonClicked() {
+		final RoomDTO room = new RoomDTO();
+		room.setName("name" + System.currentTimeMillis());
+		roomsService.addRoom(room, new AsyncCallback<RoomDTO>() {
+			@Override
+			public void onSuccess(RoomDTO result) {
+				fetchRoomDTO();
+				Window.alert("Room added");
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Error adding room");
+			}
+		});
+		// eventBus.fireEvent(new AddRoomEvent());
+	}
   
   public void onDeleteButtonClicked() {
     deleteSelectedRooms();
