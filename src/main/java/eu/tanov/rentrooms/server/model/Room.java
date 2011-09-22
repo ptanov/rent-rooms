@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 import com.google.appengine.api.datastore.Key;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "allRooms", query = "SELECT r FROM Room r") })
+@NamedQueries({ @NamedQuery(name = "roomsByLessor", query = "SELECT r FROM Room r WHERE r.owner=:owner") })
 public class Room {
 	@Id
 	@Column(name = "key")

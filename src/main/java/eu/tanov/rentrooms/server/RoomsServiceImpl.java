@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -24,10 +26,14 @@ public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsServi
 	@Override
 	public List<RoomDTO> getRooms() {
 		final EntityManager em = EMF.get().createEntityManager();
-		final List<?> allRooms = em.createNamedQuery("allRooms").getResultList();
+		final Query query = em.createNamedQuery("roomsByLessor");
+		
+		query.setParameter("owner", currentUserKey());
 
-		final List<RoomDTO> result = new ArrayList<RoomDTO>(allRooms.size());
-		for (Object object : allRooms) {
+		final List<?> userRooms = query.getResultList();
+
+		final List<RoomDTO> result = new ArrayList<RoomDTO>(userRooms.size());
+		for (Object object : userRooms) {
 			if (!(object instanceof Room)) {
 				throw new IllegalStateException("Not-a-room: " + object);
 			}
@@ -39,6 +45,11 @@ public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsServi
 			result.add(dto);
 		}
 		return result;
+	}
+
+	private Key currentUserKey() {
+		final User currentUser = UserServiceFactory.getUserService().getCurrentUser();
+		return KeyFactory.createKey(Lessor.class.getSimpleName(), currentUser.getUserId());
 	}
 
 	@Override
