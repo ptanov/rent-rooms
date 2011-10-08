@@ -118,23 +118,23 @@ public class RoomsPresenter implements Presenter,
   }
 
   private void deleteSelectedRooms() {
-//    List<RoomDTO> selectedRooms = selectionModel.getSelectedItems();
-//    ArrayList<String> ids = new ArrayList<String>();
-//    
-//    for (int i = 0; i < selectedRooms.size(); ++i) {
-//      ids.add(selectedRooms.get(i).getId());
-//    }
-//    
-//    rpcService.deleteRooms(ids, new AsyncCallback<ArrayList<RoomDTO>>() {
-//      public void onSuccess(ArrayList<RoomDTO> result) {
-//        roomDetails = result;
-//        sortRoomDTO();
-//        view.setRowData(roomDetails);
-//      }
-//      
-//      public void onFailure(Throwable caught) {
-//        System.out.println("Error deleting selected rooms");
-//      }
-//    });
+		final List<RoomDTO> selectedRooms = selectionModel.getSelectedItems();
+		final ArrayList<String> ids = new ArrayList<String>(selectedRooms.size());
+
+		for (int i = 0; i < selectedRooms.size(); ++i) {
+			ids.add(selectedRooms.get(i).getKey());
+		}
+
+		roomsService.deleteRooms(ids, new AsyncCallback<List<RoomDTO>>() {
+			public void onSuccess(List<RoomDTO> result) {
+				roomDetails = result;
+				sortRoomDTO();
+				view.setRowData(roomDetails);
+			}
+
+			public void onFailure(Throwable caught) {
+				Window.alert("Error deleting selected rooms");
+			}
+		});
   }
 }

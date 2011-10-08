@@ -3,9 +3,6 @@ package eu.tanov.rentrooms.client.view;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -70,27 +67,11 @@ public class RoomsViewImpl<T> extends Composite implements RoomsView<T> {
 		}
 	}
 
-//
-//  @UiHandler("deleteButton")
-//  void onDeleteButtonClicked(ClickEvent event) {
-//    if (presenter != null) {
-//      presenter.onDeleteButtonClicked();
-//    }
-//  }
-//  
-	private TableCellElement findNearestParentCell(Node node) {
-		while ((node != null)) {
-			if (Element.is(node)) {
-				Element elem = Element.as(node);
-
-				String tagName = elem.getTagName();
-				if ("td".equalsIgnoreCase(tagName) || "th".equalsIgnoreCase(tagName)) {
-					return elem.cast();
-				}
-			}
-			node = node.getParentNode();
+	@UiHandler("deleteButton")
+	public void onDeleteButtonClicked(ClickEvent event) {
+		if (presenter != null) {
+			presenter.onDeleteButtonClicked();
 		}
-		return null;
 	}
 
 	@UiHandler("roomsTable")

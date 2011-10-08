@@ -12,8 +12,8 @@ public interface RoomsService extends RemoteService {
 	public RoomDTO addRoom(RoomDTO room);
 //
 //	public Boolean deleteRoom(String id);
-//
-//	public List<RoomDTO> deleteRooms(List<String> ids);
+
+	public List<RoomDTO> deleteRooms(List<String> encodedKeys);
 
 	public List<RoomDTO> getRooms();
 

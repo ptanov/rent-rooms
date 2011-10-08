@@ -43,6 +43,7 @@ public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsServi
 
 				final RoomDTO dto = new RoomDTO();
 				dto.setName(room.getName());
+				dto.setKey(KeyFactory.keyToString(room.getKey()));
 
 				result.add(dto);
 			}
@@ -72,6 +73,25 @@ public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsServi
 		}
 
 		return roomDTO;
+	}
+
+	@Override
+	public List<RoomDTO> deleteRooms(List<String> encodedKeys) {
+		final EntityManager em = EMF.get().createEntityManager();
+		try {
+			for (String encodedKey : encodedKeys) {
+				final Key key = KeyFactory.stringToKey(encodedKey);
+				final Room room = em.find(Room.class, key);
+				if (room == null) {
+					throw new IllegalStateException("Could not find room with key: " + key);
+				}
+				//FIXME check if user have rights to delete this room
+				em.remove(room);
+			}
+		} finally {
+			em.close();
+		}
+		return getRooms();
 	}
 
 	private Lessor getOrCreateOwner(EntityManager em) {

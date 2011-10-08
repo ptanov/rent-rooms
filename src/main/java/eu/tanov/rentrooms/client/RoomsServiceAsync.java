@@ -10,8 +10,8 @@ public interface RoomsServiceAsync {
 	public void addRoom(RoomDTO room, AsyncCallback<RoomDTO> callback);
 //
 //	public void deleteRoom(String id, AsyncCallback<Boolean> callback);
-//
-//	public void deleteRooms(List<String> ids, AsyncCallback<List<RoomDTO>> callback);
+
+	public void deleteRooms(List<String> encodedKeys, AsyncCallback<List<RoomDTO>> callback);
 
 	public void getRooms(AsyncCallback<List<RoomDTO>> callback);
 //
