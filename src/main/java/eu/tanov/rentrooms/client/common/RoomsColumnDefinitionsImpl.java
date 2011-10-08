@@ -2,6 +2,10 @@ package eu.tanov.rentrooms.client.common;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
+
 import eu.tanov.rentrooms.shared.model.RoomDTO;
 
 @SuppressWarnings("serial")
@@ -20,26 +24,27 @@ public class RoomsColumnDefinitionsImpl extends
     
     return instance;
   }
-  
-  protected RoomsColumnDefinitionsImpl() {
-    this.add(new ColumnDefinition<RoomDTO>() {
-      public void render(RoomDTO c, StringBuilder sb) {
-        sb.append("<input type='checkbox'/>");
-      }
 
-      public boolean isSelectable() {
-        return true;
-      }
-    });
+	protected RoomsColumnDefinitionsImpl() {
+		this.add(new ColumnDefinition<RoomDTO>() {
+			@Override
+			public Widget render(RoomDTO c) {
+				return new CheckBox();
+			}
 
-    this.add(new ColumnDefinition<RoomDTO>() {
-      public void render(RoomDTO c, StringBuilder sb) {        
-        sb.append("<div id='" + c.getName() + "'>" + c.getName() + "</div>");
-      }
+			public boolean isSelectable() {
+				return true;
+			}
+		});
 
-      public boolean isClickable() {
-        return true;
-      }
-    });
-  }
+		this.add(new ColumnDefinition<RoomDTO>() {
+			public Widget render(RoomDTO c) {
+				return new HTML(c.getName());
+			}
+
+			public boolean isClickable() {
+				return true;
+			}
+		});
+	}
 }

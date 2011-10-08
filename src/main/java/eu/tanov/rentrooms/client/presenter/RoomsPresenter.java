@@ -1,5 +1,6 @@
 package eu.tanov.rentrooms.client.presenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -10,7 +11,6 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import eu.tanov.rentrooms.client.RoomsServiceAsync;
 import eu.tanov.rentrooms.client.common.ColumnDefinition;
 import eu.tanov.rentrooms.client.common.SelectionModel;
-import eu.tanov.rentrooms.client.event.room.AddRoomEvent;
 import eu.tanov.rentrooms.client.view.RoomsView;
 import eu.tanov.rentrooms.shared.model.RoomDTO;
 
@@ -51,7 +51,7 @@ public class RoomsPresenter implements Presenter,
 		});
 		// eventBus.fireEvent(new AddRoomEvent());
 	}
-  
+
   public void onDeleteButtonClicked() {
     deleteSelectedRooms();
   }
@@ -60,14 +60,13 @@ public class RoomsPresenter implements Presenter,
 //    eventBus.fireEvent(new EditRoomEvent(roomDetails.getId()));
   }
 
-  public void onItemSelected(RoomDTO roomDetails) {
-//    if (selectionModel.isSelected(roomDetails)) {
-//      selectionModel.removeSelection(roomDetails);
-//    }
-//    else {
-//      selectionModel.addSelection(roomDetails);
-//    }
-  }
+	public void onItemSelected(RoomDTO roomDetails) {
+		if (selectionModel.isSelected(roomDetails)) {
+			selectionModel.removeSelection(roomDetails);
+		} else {
+			selectionModel.addSelection(roomDetails);
+		}
+	}
   
   public void go(final HasWidgets container) {
     container.clear();
