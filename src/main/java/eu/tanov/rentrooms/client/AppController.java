@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import eu.tanov.rentrooms.client.common.RoomsColumnDefinitionsFactory;
 import eu.tanov.rentrooms.client.event.room.AddRoomEvent;
 import eu.tanov.rentrooms.client.event.room.AddRoomEventHandler;
+import eu.tanov.rentrooms.client.event.room.EditRoomCancelledEvent;
+import eu.tanov.rentrooms.client.event.room.EditRoomCancelledEventHandler;
 import eu.tanov.rentrooms.client.event.room.RoomUpdatedEvent;
 import eu.tanov.rentrooms.client.event.room.RoomUpdatedEventHandler;
 import eu.tanov.rentrooms.client.presenter.EditRoomPresenter;
@@ -46,6 +48,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		eventBus.addHandler(RoomUpdatedEvent.TYPE, new RoomUpdatedEventHandler() {
 			public void onRoomUpdated(RoomUpdatedEvent event) {
 				doRoomUpdated();
+			}
+		});
+		eventBus.addHandler(EditRoomCancelledEvent.TYPE, new EditRoomCancelledEventHandler() {
+			@Override
+			public void onEditRoomCancelled(EditRoomCancelledEvent event) {
+				doEditRoomCancelled();
 			}
 		});
 	}
@@ -102,5 +110,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private void doAddNewRoom() {
 		History.newItem("addRoom");
+	}
+	private void doEditRoomCancelled() {
+		History.newItem("list");
 	}
 }

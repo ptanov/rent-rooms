@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import eu.tanov.rentrooms.client.RoomsServiceAsync;
+import eu.tanov.rentrooms.client.event.room.EditRoomCancelledEvent;
 import eu.tanov.rentrooms.client.event.room.RoomUpdatedEvent;
 import eu.tanov.rentrooms.client.view.EditRoomView;
 import eu.tanov.rentrooms.shared.model.RoomDTO;
@@ -37,6 +38,10 @@ public class EditRoomPresenter implements Presenter, EditRoomView.Presenter {
 				Window.alert("Error updating room");
 			}
 		});
+	}
+
+	public void onCancelButtonClicked() {
+		eventBus.fireEvent(new EditRoomCancelledEvent());
 	}
 
 	public void go(final HasWidgets container) {

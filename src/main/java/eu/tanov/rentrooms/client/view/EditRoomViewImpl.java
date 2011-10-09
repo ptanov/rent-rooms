@@ -24,6 +24,8 @@ public class EditRoomViewImpl extends Composite implements EditRoomView {
 	protected TextBox roomName;
 	@UiField
 	protected Button saveButton;
+	@UiField
+	protected Button cancelButton;
 
 	private Presenter presenter;
 
@@ -39,6 +41,13 @@ public class EditRoomViewImpl extends Composite implements EditRoomView {
 	public void onSaveButtonClicked(ClickEvent event) {
 		if (presenter != null) {
 			presenter.onSaveButtonClicked();
+		}
+	}
+
+	@UiHandler("cancelButton")
+	public void onCancelButtonClicked(ClickEvent event) {
+		if (presenter != null) {
+			presenter.onCancelButtonClicked();
 		}
 	}
 

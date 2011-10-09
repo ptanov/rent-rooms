@@ -7,6 +7,7 @@ public interface EditRoomView {
 
 	public interface Presenter {
 		public void onSaveButtonClicked();
+		public void onCancelButtonClicked();
 	}
 
 	public void setPresenter(Presenter presenter);

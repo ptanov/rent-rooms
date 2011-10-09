@@ -15,8 +15,9 @@
 					</g:customCell>
 				</g:row>
 				<g:row>
-					<g:cell>
-					</g:cell>
+					<g:customCell>
+						<g:Button ui:field="cancelButton">Cancel</g:Button>
+					</g:customCell>
 					<g:customCell>
 						<g:Button ui:field="saveButton">Save</g:Button>
 					</g:customCell>
