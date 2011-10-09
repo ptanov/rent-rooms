@@ -25,6 +25,8 @@ import eu.tanov.rentrooms.client.view.RoomsViewImpl;
 import eu.tanov.rentrooms.shared.model.RoomDTO;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
+	private static final String HISTORY_ITEM_ADD_ROOM = "addRoom";
+	private static final String HISTORY_ITEM_ROOMS_LIST = "list";
 	private final HandlerManager eventBus;
 	private final RoomsServiceAsync roomsService;
 	private HasWidgets container;
@@ -62,7 +64,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.container = container;
 
 		if ("".equals(History.getToken())) {
-			History.newItem("list");
+			History.newItem(HISTORY_ITEM_ROOMS_LIST);
 		} else {
 			History.fireCurrentHistoryState();
 		}
@@ -74,7 +76,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		if (token != null) {
 			Presenter presenter = null;
 
-			if (token.equals("list")) {
+			if (token.equals(HISTORY_ITEM_ROOMS_LIST)) {
 
 				if (roomsView == null) {
 					roomsView = new RoomsViewImpl<RoomDTO>();
@@ -82,7 +84,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 				presenter = new RoomsPresenter(roomsService, eventBus, roomsView,
 						RoomsColumnDefinitionsFactory.getRoomsColumnDefinitions());
-			} else if (token.equals("addRoom")) {
+			} else if (token.equals(HISTORY_ITEM_ADD_ROOM)) {
 				GWT.runAsync(new RunAsyncCallback() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Could not init application");
@@ -105,13 +107,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	}
 
 	private void doRoomUpdated() {
-		History.newItem("list");
+		History.newItem(HISTORY_ITEM_ROOMS_LIST);
 	}
 
 	private void doAddNewRoom() {
-		History.newItem("addRoom");
+		History.newItem(HISTORY_ITEM_ADD_ROOM);
 	}
 	private void doEditRoomCancelled() {
-		History.newItem("list");
+		History.newItem(HISTORY_ITEM_ROOMS_LIST);
 	}
 }
