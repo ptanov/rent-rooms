@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import eu.tanov.rentrooms.client.RoomsServiceAsync;
 import eu.tanov.rentrooms.client.common.ColumnDefinition;
 import eu.tanov.rentrooms.client.common.SelectionModel;
+import eu.tanov.rentrooms.client.event.room.AddRoomEvent;
 import eu.tanov.rentrooms.client.view.RoomsView;
 import eu.tanov.rentrooms.shared.model.RoomDTO;
 
@@ -35,21 +36,7 @@ public class RoomsPresenter implements Presenter,
   }
   
 	public void onAddButtonClicked() {
-		final RoomDTO room = new RoomDTO();
-		room.setName("name" + System.currentTimeMillis());
-		roomsService.addRoom(room, new AsyncCallback<RoomDTO>() {
-			@Override
-			public void onSuccess(RoomDTO result) {
-				fetchRoomDTO();
-				Window.alert("Room added");
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Error adding room");
-			}
-		});
-		// eventBus.fireEvent(new AddRoomEvent());
+		eventBus.fireEvent(new AddRoomEvent());
 	}
 
   public void onDeleteButtonClicked() {

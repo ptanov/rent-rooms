@@ -1,0 +1,27 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<g:DecoratorPanel>
+		<g:VerticalPanel>
+
+			<g:Label>Room</g:Label>
+			<g:Grid>
+				<g:row>
+					<g:customCell>
+						<g:Label>Name</g:Label>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="roomName" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell>
+					</g:cell>
+					<g:customCell>
+						<g:Button ui:field="saveButton">Save</g:Button>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+		</g:VerticalPanel>
+	</g:DecoratorPanel>
+</ui:UiBinder>
