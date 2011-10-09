@@ -15,37 +15,35 @@ import eu.tanov.rentrooms.client.event.room.AddRoomEvent;
 import eu.tanov.rentrooms.client.view.RoomsView;
 import eu.tanov.rentrooms.shared.model.RoomDTO;
 
-public class RoomsPresenter implements Presenter, 
-  RoomsView.Presenter<RoomDTO> {  
+public class RoomsPresenter implements Presenter, RoomsView.Presenter<RoomDTO> {
 
-  private List<RoomDTO> roomDetails;
-  private final RoomsServiceAsync roomsService;
-  private final HandlerManager eventBus;
-  private final RoomsView<RoomDTO> view;
-  private final SelectionModel<RoomDTO> selectionModel;
-  
-  public RoomsPresenter(RoomsServiceAsync rpcService, 
-      HandlerManager eventBus, RoomsView<RoomDTO> view,
-      List<ColumnDefinition<RoomDTO>> columnDefinitions) {
-    this.roomsService = rpcService;
-    this.eventBus = eventBus;
-    this.view = view;
-    this.selectionModel = new SelectionModel<RoomDTO>();
-    this.view.setPresenter(this);
-    this.view.setColumnDefinitions(columnDefinitions);
-  }
-  
+	private List<RoomDTO> roomDetails;
+	private final RoomsServiceAsync roomsService;
+	private final HandlerManager eventBus;
+	private final RoomsView<RoomDTO> view;
+	private final SelectionModel<RoomDTO> selectionModel;
+
+	public RoomsPresenter(RoomsServiceAsync rpcService, HandlerManager eventBus, RoomsView<RoomDTO> view,
+			List<ColumnDefinition<RoomDTO>> columnDefinitions) {
+		this.roomsService = rpcService;
+		this.eventBus = eventBus;
+		this.view = view;
+		this.selectionModel = new SelectionModel<RoomDTO>();
+		this.view.setPresenter(this);
+		this.view.setColumnDefinitions(columnDefinitions);
+	}
+
 	public void onAddButtonClicked() {
 		eventBus.fireEvent(new AddRoomEvent());
 	}
 
-  public void onDeleteButtonClicked() {
-    deleteSelectedRooms();
-  }
-  
-  public void onItemClicked(RoomDTO roomDetails) {
-//    eventBus.fireEvent(new EditRoomEvent(roomDetails.getId()));
-  }
+	public void onDeleteButtonClicked() {
+		deleteSelectedRooms();
+	}
+
+	public void onItemClicked(RoomDTO roomDetails) {
+		// eventBus.fireEvent(new EditRoomEvent(roomDetails.getId()));
+	}
 
 	public void onItemSelected(RoomDTO roomDetails) {
 		if (selectionModel.isSelected(roomDetails)) {
@@ -54,57 +52,57 @@ public class RoomsPresenter implements Presenter,
 			selectionModel.addSelection(roomDetails);
 		}
 	}
-  
-  public void go(final HasWidgets container) {
-    container.clear();
-    container.add(view.asWidget());
-    fetchRoomDTO();
-  }
 
-  public void sortRoomDTO() {
-    
-    // Yes, we could use a more optimized method of sorting, but the 
-    //  point is to create a test case that helps illustrate the higher
-    //  level concepts used when creating MVP-based applications. 
-    //
-    for (int i = 0; i < roomDetails.size(); ++i) {
-      for (int j = 0; j < roomDetails.size() - 1; ++j) {
-        if (roomDetails.get(j).getName().compareToIgnoreCase(roomDetails.get(j + 1).getName()) >= 0) {
-          RoomDTO tmp = roomDetails.get(j);
-          roomDetails.set(j, roomDetails.get(j + 1));
-          roomDetails.set(j + 1, tmp);
-        }
-      }
-    }
-  }
+	public void go(final HasWidgets container) {
+		container.clear();
+		container.add(view.asWidget());
+		fetchRoomDTO();
+	}
 
-  public void setRoomDTO(List<RoomDTO> roomDetails) {
-    this.roomDetails = roomDetails;
-  }
-  
-  public List<RoomDTO> getRoomDTO() {
-    return roomDetails;
-  }
-  
-  public RoomDTO getRoomDetail(int index) {
-    return roomDetails.get(index);
-  }
-  
-  private void fetchRoomDTO() {
-    roomsService.getRooms(new AsyncCallback<List<RoomDTO>>() {
-      public void onSuccess(List<RoomDTO> result) {
-          roomDetails = result;
-          sortRoomDTO();
-          view.setRowData(roomDetails);
-      }
-      
-      public void onFailure(Throwable caught) {
-        Window.alert("Error fetching room details");
-      }
-    });
-  }
+	public void sortRoomDTO() {
 
-  private void deleteSelectedRooms() {
+		// Yes, we could use a more optimized method of sorting, but the
+		// point is to create a test case that helps illustrate the higher
+		// level concepts used when creating MVP-based applications.
+		//
+		for (int i = 0; i < roomDetails.size(); ++i) {
+			for (int j = 0; j < roomDetails.size() - 1; ++j) {
+				if (roomDetails.get(j).getName().compareToIgnoreCase(roomDetails.get(j + 1).getName()) >= 0) {
+					RoomDTO tmp = roomDetails.get(j);
+					roomDetails.set(j, roomDetails.get(j + 1));
+					roomDetails.set(j + 1, tmp);
+				}
+			}
+		}
+	}
+
+	public void setRoomDTO(List<RoomDTO> roomDetails) {
+		this.roomDetails = roomDetails;
+	}
+
+	public List<RoomDTO> getRoomDTO() {
+		return roomDetails;
+	}
+
+	public RoomDTO getRoomDetail(int index) {
+		return roomDetails.get(index);
+	}
+
+	private void fetchRoomDTO() {
+		roomsService.getRooms(new AsyncCallback<List<RoomDTO>>() {
+			public void onSuccess(List<RoomDTO> result) {
+				roomDetails = result;
+				sortRoomDTO();
+				view.setRowData(roomDetails);
+			}
+
+			public void onFailure(Throwable caught) {
+				Window.alert("Error fetching room details");
+			}
+		});
+	}
+
+	private void deleteSelectedRooms() {
 		final List<RoomDTO> selectedRooms = selectionModel.getSelectedItems();
 		final ArrayList<String> ids = new ArrayList<String>(selectedRooms.size());
 
@@ -123,5 +121,5 @@ public class RoomsPresenter implements Presenter,
 				Window.alert("Error deleting selected rooms");
 			}
 		});
-  }
+	}
 }
