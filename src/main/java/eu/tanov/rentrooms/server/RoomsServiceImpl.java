@@ -2,6 +2,7 @@ package eu.tanov.rentrooms.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -22,6 +23,7 @@ import eu.tanov.rentrooms.shared.model.RoomDTO;
  */
 @SuppressWarnings("serial")
 public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsService {
+	private static final Logger log = Logger.getLogger(RoomsServiceImpl.class.getName());
 
 	@Override
 	public List<RoomDTO> getRooms() {
@@ -68,6 +70,7 @@ public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsServi
 			room.setName(roomDTO.getName());
 			room.setOwner(owner);
 			em.persist(room);
+			log.info(String.format("Room created: %s from %s", room.getName(), owner.getMail()));
 		} finally {
 			em.close();
 		}
@@ -87,6 +90,7 @@ public class RoomsServiceImpl extends RemoteServiceServlet implements RoomsServi
 				}
 				//FIXME check if user have rights to delete this room
 				em.remove(room);
+				log.info(String.format("Room removed: %s from %s", room.getName(), getOrCreateOwner(em).getMail()));
 			}
 		} finally {
 			em.close();
