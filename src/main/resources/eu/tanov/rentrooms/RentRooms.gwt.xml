@@ -13,6 +13,7 @@
 
   <!-- Other module inherits                                      -->
   <inherits name="com.google.gwt.logging.Logging"/>
+  <set-property name="gwt.logging.simpleRemoteHandler" value="ENABLED" />
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='eu.tanov.rentrooms.client.RentRooms'/>

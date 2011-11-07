@@ -2,6 +2,8 @@ package eu.tanov.rentrooms.client.presenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -16,6 +18,7 @@ import eu.tanov.rentrooms.client.view.RoomsView;
 import eu.tanov.rentrooms.shared.model.RoomDTO;
 
 public class RoomsPresenter implements Presenter, RoomsView.Presenter<RoomDTO> {
+	private static final Logger log = Logger.getLogger(RoomsPresenter.class.getName());
 
 	private List<RoomDTO> roomDetails;
 	private final RoomsServiceAsync roomsService;
@@ -97,6 +100,7 @@ public class RoomsPresenter implements Presenter, RoomsView.Presenter<RoomDTO> {
 			}
 
 			public void onFailure(Throwable caught) {
+				log.log(Level.SEVERE, "Error fetching room details", caught);
 				Window.alert("Error fetching room details");
 			}
 		});
@@ -118,6 +122,7 @@ public class RoomsPresenter implements Presenter, RoomsView.Presenter<RoomDTO> {
 			}
 
 			public void onFailure(Throwable caught) {
+				log.log(Level.SEVERE, "Error deleting selected rooms: " + selectedRooms, caught);
 				Window.alert("Error deleting selected rooms");
 			}
 		});

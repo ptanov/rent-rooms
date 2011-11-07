@@ -11,9 +11,21 @@
 		<servlet-class>eu.tanov.rentrooms.server.RoomsServiceImpl</servlet-class>
 	</servlet>
 
+	<!-- logging -->
+	<servlet>
+		<servlet-name>remoteLoggingServlet</servlet-name>
+		<servlet-class>com.google.gwt.logging.server.RemoteLoggingServiceImpl</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>roomsServlet</servlet-name>
 		<url-pattern>/rentrooms/roomsService</url-pattern>
+	</servlet-mapping>
+
+	<!-- logging -->
+	<servlet-mapping>
+		<servlet-name>remoteLoggingServlet</servlet-name>
+		<url-pattern>/rentrooms/remote_logging</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->
