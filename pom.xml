@@ -8,7 +8,7 @@
   <name>eu.tanov.rentrooms</name>
   <properties>
 	<!-- 2.4.0.rc1 or -->
-    <gwt.version>2.3.0</gwt.version>
+    <gwt.version>2.4.0</gwt.version>
     <slf4j.version>1.6.1</slf4j.version>
     <gae.version>1.5.4</gae.version>
     <gae-test.version>1.5.4</gae-test.version>
