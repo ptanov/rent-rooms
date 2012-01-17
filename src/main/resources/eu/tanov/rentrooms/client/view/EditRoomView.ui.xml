@@ -1,14 +1,19 @@
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat' ui:generateKeys="com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator"
+	ui:generateLocales="default">
 
 	<g:DecoratorPanel>
 		<g:VerticalPanel>
 
-			<g:Label>Room</g:Label>
+			<g:Label>
+				<ui:msg description="Room type name">Room</ui:msg>
+			</g:Label>
 			<g:Grid>
 				<g:row>
 					<g:customCell>
-						<g:Label>Name</g:Label>
+						<g:Label>
+							<ui:msg description="Room name">Name</ui:msg>
+						</g:Label>
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="roomName" />
@@ -16,10 +21,14 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Button ui:field="cancelButton">Cancel</g:Button>
+						<g:Button ui:field="cancelButton">
+							<ui:msg description="Cancel button">Cancel</ui:msg>
+						</g:Button>
 					</g:customCell>
 					<g:customCell>
-						<g:Button ui:field="saveButton">Save</g:Button>
+						<g:Button ui:field="saveButton">
+							<ui:msg description="Save button">Save</ui:msg>
+						</g:Button>
 					</g:customCell>
 				</g:row>
 			</g:Grid>
