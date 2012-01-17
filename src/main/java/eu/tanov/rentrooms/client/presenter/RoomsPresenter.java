@@ -14,6 +14,7 @@ import eu.tanov.rentrooms.client.RoomsServiceAsync;
 import eu.tanov.rentrooms.client.common.ColumnDefinition;
 import eu.tanov.rentrooms.client.common.SelectionModel;
 import eu.tanov.rentrooms.client.event.room.AddRoomEvent;
+import eu.tanov.rentrooms.client.i18n.Constants;
 import eu.tanov.rentrooms.client.view.RoomsView;
 import eu.tanov.rentrooms.shared.model.RoomDTO;
 
@@ -25,15 +26,17 @@ public class RoomsPresenter implements Presenter, RoomsView.Presenter<RoomDTO> {
 	private final HandlerManager eventBus;
 	private final RoomsView<RoomDTO> view;
 	private final SelectionModel<RoomDTO> selectionModel;
+	private final Constants constants;
 
-	public RoomsPresenter(RoomsServiceAsync rpcService, HandlerManager eventBus, RoomsView<RoomDTO> view,
-			List<ColumnDefinition<RoomDTO>> columnDefinitions) {
+	public RoomsPresenter(Constants constants, HandlerManager eventBus, RoomsServiceAsync rpcService,
+			RoomsView<RoomDTO> view, List<ColumnDefinition<RoomDTO>> columnDefinitions) {
 		this.roomsService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
 		this.selectionModel = new SelectionModel<RoomDTO>();
 		this.view.setPresenter(this);
 		this.view.setColumnDefinitions(columnDefinitions);
+		this.constants = constants;
 	}
 
 	public void onAddButtonClicked() {
@@ -101,7 +104,7 @@ public class RoomsPresenter implements Presenter, RoomsView.Presenter<RoomDTO> {
 
 			public void onFailure(Throwable caught) {
 				log.log(Level.SEVERE, "Error fetching room details", caught);
-				Window.alert("Error fetching room details");
+				Window.alert(constants.roomErrorReadList());
 			}
 		});
 	}
@@ -123,7 +126,7 @@ public class RoomsPresenter implements Presenter, RoomsView.Presenter<RoomDTO> {
 
 			public void onFailure(Throwable caught) {
 				log.log(Level.SEVERE, "Error deleting selected rooms: " + selectedRooms, caught);
-				Window.alert("Error deleting selected rooms");
+				Window.alert(constants.roomErrorDelete());
 			}
 		});
 	}

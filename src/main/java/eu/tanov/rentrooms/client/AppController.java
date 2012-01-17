@@ -16,6 +16,7 @@ import eu.tanov.rentrooms.client.event.room.EditRoomCancelledEvent;
 import eu.tanov.rentrooms.client.event.room.EditRoomCancelledEventHandler;
 import eu.tanov.rentrooms.client.event.room.RoomUpdatedEvent;
 import eu.tanov.rentrooms.client.event.room.RoomUpdatedEventHandler;
+import eu.tanov.rentrooms.client.i18n.Constants;
 import eu.tanov.rentrooms.client.presenter.EditRoomPresenter;
 import eu.tanov.rentrooms.client.presenter.Presenter;
 import eu.tanov.rentrooms.client.presenter.RoomsPresenter;
@@ -32,10 +33,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private HasWidgets container;
 	private RoomsViewImpl<RoomDTO> roomsView = null;
 	private EditRoomView editRoomView = null;
+	private Constants constants;
 
-	public AppController(RoomsServiceAsync roomsService, HandlerManager eventBus) {
-		this.eventBus = eventBus;
+	public AppController(Constants constants, HandlerManager eventBus, RoomsServiceAsync roomsService) {
+		this.constants = constants;
 		this.roomsService = roomsService;
+		this.eventBus = eventBus;
+
 		bind();
 	}
 
@@ -82,12 +86,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					roomsView = new RoomsViewImpl<RoomDTO>();
 				}
 
-				presenter = new RoomsPresenter(roomsService, eventBus, roomsView,
+				presenter = new RoomsPresenter(constants, eventBus, roomsService, roomsView,
 						RoomsColumnDefinitionsFactory.getRoomsColumnDefinitions());
 			} else if (token.equals(HISTORY_ITEM_ADD_ROOM)) {
 				GWT.runAsync(new RunAsyncCallback() {
 					public void onFailure(Throwable caught) {
-						Window.alert("Could not init application");
+						Window.alert(constants.applicationErrorInit());
 					}
 
 					public void onSuccess() {
@@ -95,8 +99,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 							editRoomView = new EditRoomViewImpl();
 
 						}
-						new EditRoomPresenter(roomsService, eventBus, editRoomView).go(container);
-	 				}
+						new EditRoomPresenter(constants, eventBus, roomsService, editRoomView).go(container);
+					}
 				});
 			}
 
@@ -113,6 +117,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private void doAddNewRoom() {
 		History.newItem(HISTORY_ITEM_ADD_ROOM);
 	}
+
 	private void doEditRoomCancelled() {
 		History.newItem(HISTORY_ITEM_ROOMS_LIST);
 	}

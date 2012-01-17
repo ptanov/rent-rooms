@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import eu.tanov.rentrooms.client.RoomsServiceAsync;
 import eu.tanov.rentrooms.client.event.room.EditRoomCancelledEvent;
 import eu.tanov.rentrooms.client.event.room.RoomUpdatedEvent;
+import eu.tanov.rentrooms.client.i18n.Constants;
 import eu.tanov.rentrooms.client.view.EditRoomView;
 import eu.tanov.rentrooms.shared.model.RoomDTO;
 
@@ -21,11 +22,15 @@ public class EditRoomPresenter implements Presenter, EditRoomView.Presenter {
 	private final HandlerManager eventBus;
 	private final EditRoomView view;
 
-	public EditRoomPresenter(RoomsServiceAsync rpcService, HandlerManager eventBus, EditRoomView view) {
+	private final Constants constants;
+
+	public EditRoomPresenter(Constants constants, HandlerManager eventBus, RoomsServiceAsync rpcService,
+			EditRoomView view) {
 		this.roomsService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
 		this.view.setPresenter(this);
+		this.constants = constants;
 	}
 
 	public void onSaveButtonClicked() {
@@ -40,7 +45,7 @@ public class EditRoomPresenter implements Presenter, EditRoomView.Presenter {
 			@Override
 			public void onFailure(Throwable caught) {
 				log.log(Level.SEVERE, "Error updating room: " + room, caught);
-				Window.alert("Error updating room");
+				Window.alert(constants.roomErrorUpdate());
 			}
 		});
 	}
